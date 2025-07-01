@@ -21,9 +21,9 @@ namespace polyproto.core.Routes.Services {
         @added(Version.`v1.0-beta.3`)
         @returnsDoc("A singular service object, representing the service that was added.")
         @errorsDoc("Returned, if the service and URL combination already exists in the list of discoverable services.")
-        op registerService(service: polyproto.core.Models.Service): {
+        op registerService(service: polyproto.core.models.Service): {
             @statusCode statusCode: 201;
-            @body body: polyproto.core.Models.Service;
+            @body body: polyproto.core.models.Service;
         } | {
             @statusCode statusCode: 409;
         };
@@ -53,7 +53,7 @@ namespace polyproto.core.Routes.Services {
             @statusCode statusCode: 200;
             @body returnedBody?: {
                 service: string;
-                new_primary: url;
+                newPrimary: url;
             }[];
         } | {
             @statusCode statusCode: 400 | 403 | 404;
@@ -89,7 +89,7 @@ namespace polyproto.core.Routes.Services {
             @maxItems(2)
             @minItems(1)
             @body
-            body: polyproto.core.Models.Service[];
+            body: polyproto.core.models.Service[];
         } | {
             @statusCode statusCode: 400 | 403;
         };
@@ -114,7 +114,7 @@ namespace polyproto.core.Routes.Services {
             @path fid: string,
             @query @minValue(1) limit?: uint64,
         ):
-            | polyproto.core.Models.Service[]
+            | polyproto.core.models.Service[]
             | {
                   @statusCode statusCode: 204;
 
@@ -126,7 +126,7 @@ namespace polyproto.core.Routes.Services {
               }
             | {
                   @statusCode statusCode: 200;
-                  @body body: polyproto.core.Models.Service[];
+                  @body body: polyproto.core.models.Service[];
               };
 
         /**
@@ -147,7 +147,7 @@ namespace polyproto.core.Routes.Services {
             @path service: string,
             @query @minValue(1) limit?: uint64,
         ):
-            | polyproto.core.Models.Service[]
+            | polyproto.core.models.Service[]
             | {
                   @statusCode statusCode: 204;
 
@@ -159,7 +159,7 @@ namespace polyproto.core.Routes.Services {
               }
             | {
                   @statusCode statusCode: 200;
-                  @body body: polyproto.core.Models.Service[];
+                  @body body: polyproto.core.models.Service[];
               };
     }
 }

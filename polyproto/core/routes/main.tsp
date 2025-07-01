@@ -26,4 +26,5 @@ namespace polyproto.core;
 
 enum Version {
     `v1.0-beta.3`,
+    `v1.0-beta.4`,
 }

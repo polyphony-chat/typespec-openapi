@@ -1,11 +1,11 @@
-namespace polyproto.core.Models {
+namespace polyproto.core.models {
     model EncryptedPKM {
         /**
          * Custom variant of the X.509 `SubjectPublicKeyInfo`, where the `subject_public_key`
          * field stores the encrypted private key, instead of a public key. Otherwise equal to
          * `SubjectPublicKeyInfo`. Also referred to as `PrivateKeyInfo`.
          */
-        key_data: string;
+        keyData: string;
 
         @doc("The serial number of the ID-Cert this key material is associated with.")
         serialNumber: uint64;
@@ -63,6 +63,9 @@ namespace polyproto.core.Models {
     model KeyTrialCompleted {
         @doc("The signature produced by signing the key trial string using a private identity key.")
         signature: string;
+
+        @doc("The federation ID of the actor who completed this key trial.")
+        fid: string;
 
         @doc("The serial number of the ID-Cert corresponding to the private identity key used to sign the key trial string.")
         serialNumber: uint64;
@@ -192,7 +195,7 @@ namespace polyproto.core.Models {
         @example("------BEGIN CERTIFICATE------...")
         idCertPem: string;
 
-        @doc("UNIX timestamp that specifies when this specific id_cert has been marked as invalidated by the server. An ID-Cert is considered invalidated, if the server or actor choose to revoke the validity of the ID-Cert before the lifetime of the certificate was scheduled to end. If this property does not exist, the ID-Cert has not been invalidated.")
+        @doc("UNIX timestamp that specifies when this specific idCert has been marked as invalidated by the server. An ID-Cert is considered invalidated, if the server or actor choose to revoke the validity of the ID-Cert before the lifetime of the certificate was scheduled to end. If this property does not exist, the ID-Cert has not been invalidated.")
         @example(1736610000)
         invalidatedAt?: uint64;
 

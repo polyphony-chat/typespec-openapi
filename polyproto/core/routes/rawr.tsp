@@ -13,6 +13,25 @@ namespace polyproto.core.Routes.ResourceAddressingWithRelativeRoots {
     @tag("Resource addressing with relative roots - Registration not required")
     namespace Unregistered {
         /**
+         * Get information about how much storage you are allowed to use, and see how much storage you
+         * are currently using.
+         */
+        @route("/usage")
+        @get
+        @added(Version.`v1.0-beta.3`)
+        @summary("Retrieve information about your storage usage")
+        op getStorageLimitInfo(): {
+            @statusCode _s: 200;
+            @body _b: {
+                @doc("How many bytes of storage you are allowed to upload in total")
+                limit: uint64;
+
+                @doc("How many bytes of storage you are currently using")
+                used: uint64;
+            };
+        };
+
+        /**
          * Retrieve a [RawR](https://docs.polyphony.chat/Protocol%20Specifications/core/#731-resource-addressing-with-relative-roots)
          * resource by specifying the ID of the resource.
          * @param rid: Resource Identifier - unique identifier for a resource.
@@ -55,7 +74,7 @@ namespace polyproto.core.Routes.ResourceAddressingWithRelativeRoots {
         @summary("Retrieve information about a RawR resource")
         op getResourceInfos(@path rid: string): {
             @statusCode statusCode: 200;
-            @body body: polyproto.core.Models.ResourceInformation[];
+            @body body: polyproto.core.models.ResourceInformation[];
         } | {
             @statusCode _: 308;
 
@@ -93,7 +112,7 @@ namespace polyproto.core.Routes.ResourceAddressingWithRelativeRoots {
             contentLength: uint64,
 
             @query
-            resourceAccessProperties: polyproto.core.Models.ResourceAccessProperties,
+            resourceAccessProperties: polyproto.core.models.ResourceAccessProperties,
 
             @body file: File,
         ):
@@ -152,7 +171,7 @@ namespace polyproto.core.Routes.ResourceAddressingWithRelativeRoots {
             @path rid: string,
 
             @body
-            resourceAccessProperties: polyproto.core.Models.ResourceAccessProperties,
+            resourceAccessProperties: polyproto.core.models.ResourceAccessProperties,
         ): {
             @header(#{ name: "Content-Length" })
             contentLength: 0;
@@ -171,7 +190,7 @@ namespace polyproto.core.Routes.ResourceAddressingWithRelativeRoots {
         @summary("List your uploaded resources")
         op getResourceList(
             @query limit?: uint32 = 50,
-            @query sort?: polyproto.core.Models.ResourceListSorting,
+            @query sort?: polyproto.core.models.ResourceListSorting,
 
             @doc("Whether to request content previews for supported file formats")
             @query
@@ -179,7 +198,7 @@ namespace polyproto.core.Routes.ResourceAddressingWithRelativeRoots {
         ): {
             @statusCode statusCode: 200;
             @body body: {
-                resourceInformation: polyproto.core.Models.ResourceInformation;
+                resourceInformation: polyproto.core.models.ResourceInformation;
 
                 @doc("Only present, if `previews` was set to `true` in the request, and if the response contains preview-supported file types.")
                 preview?: File;
@@ -191,25 +210,6 @@ namespace polyproto.core.Routes.ResourceAddressingWithRelativeRoots {
             contentLength: 0;
         };
     }
-
-    /**
-     * Get information about how much storage you are allowed to use, and see how much storage you
-     * are currently using.
-     */
-    @route("/usage")
-    @get
-    @added(Version.`v1.0-beta.3`)
-    @summary("Retrieve information about your storage usage")
-    op getStorageLimitInfo(): {
-        @statusCode _s: 200;
-        @body _b: {
-            @doc("How many bytes of storage you are allowed to upload in total")
-            limit: uint64;
-
-            @doc("How many bytes of storage you are currently using")
-            used: uint64;
-        };
-    };
 }
 
 // rawr x3

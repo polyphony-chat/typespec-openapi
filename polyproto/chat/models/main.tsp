@@ -12,7 +12,7 @@ namespace polyproto.chat.models {
         }
         @added(Version.`v0.1.0-alpha.0`)
         model ChannelData {
-            parent_id: string;
+            parentId: string;
             type: uint8;
             position: uint32;
             name: string;
@@ -32,11 +32,11 @@ namespace polyproto.chat.models {
         @added(Version.`v0.1.0-alpha.0`)
         model Guild {
             id: string;
-            display_name: string;
+            displayName: string;
             description?: string;
             icon?: url;
-            owner_id: string;
-            created_at: offsetDateTime;
+            ownerId: string;
+            createdAt: offsetDateTime;
         }
     }
 
@@ -74,7 +74,7 @@ namespace polyproto.chat.models {
         @added(Version.`v0.1.0-alpha.0`)
         model Actor {
             fid: string;
-            display_name?: string;
+            displayName?: string;
             pronouns?: string;
             about?: string;
             avatar?: url;
@@ -104,6 +104,6 @@ namespace polyproto.chat.models {
         """)
     model EncryptedMessageData {
         data: string;
-        dest_id: string;
+        destId: string;
     }
 }
