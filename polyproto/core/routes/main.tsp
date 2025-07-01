@@ -28,3 +28,14 @@ enum Version {
     `v1.0-beta.3`,
     `v1.0-beta.4`,
 }
+
+/**
+ * Retrieve the URL of the gateway server to connect to.
+ */
+@route("/gateway")
+@added(Version.`v1.0-beta.4`)
+@summary("Get the gateway server URL")
+op gatewayUrl(): {
+    @body _: url;
+    @statusCode statusCode: 200;
+};
