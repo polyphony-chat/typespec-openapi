@@ -90,11 +90,11 @@ components:
       type: object
       required:
         - data
-        - dest_id
+        - destId
       properties:
         data:
           type: string
-        dest_id:
+        destId:
           type: string
       description: |-
         "EncryptedMessageData" is encrypted message data with unencrypted metadata. The amount of
@@ -112,7 +112,7 @@ components:
       properties:
         fid:
           type: string
-        display_name:
+        displayName:
           type: string
         pronouns:
           type: string
@@ -149,14 +149,14 @@ components:
     models.channel.ChannelData:
       type: object
       required:
-        - parent_id
+        - parentId
         - type
         - position
         - name
         - description
         - permissions
       properties:
-        parent_id:
+        parentId:
           type: string
         type:
           type: integer
@@ -180,22 +180,22 @@ components:
       type: object
       required:
         - id
-        - display_name
-        - owner_id
-        - created_at
+        - displayName
+        - ownerId
+        - createdAt
       properties:
         id:
           type: string
-        display_name:
+        displayName:
           type: string
         description:
           type: string
         icon:
           type: string
           format: uri
-        owner_id:
+        ownerId:
           type: string
-        created_at:
+        createdAt:
           type: string
           format: date-time
     models.message.Embed:

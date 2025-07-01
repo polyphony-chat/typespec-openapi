@@ -4,7 +4,7 @@ info:
   license:
     name: MIT License
     url: https://raw.githubusercontent.com/polyphony-chat/docs/refs/heads/main/LICENSE
-  version: v1.0-beta.3
+  version: v1.0-beta.4
 tags:
   - name: Federated Identity - Registration required
   - name: Sensitive Actions
@@ -1494,6 +1494,28 @@ paths:
       security:
         - BearerAuth: []
   /.p2/core/v1/session/auth:
+    post:
+      operationId: Unregistered_requestToken
+      summary: Authenticate on a foreign server
+      description: |-
+        Authenticate on a foreign server, creating a session with an authentication token. Requires
+        completing a key trial for the ID-Cert of which the session is supposed to be generated for.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            text/plain:
+              schema:
+                type: string
+      tags:
+        - Federated Identity - Registration not required
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.KeyTrialCompleted'
     get:
       operationId: Unregistered_requestChallenge
       summary: Authenticate on a foreign server

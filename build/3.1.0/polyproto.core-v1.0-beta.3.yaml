@@ -41,7 +41,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Models.KeyTrialCompleted'
+              $ref: '#/components/schemas/models.KeyTrialCompleted'
       responses:
         '204':
           description: '- `204`: Action executed'
@@ -74,7 +74,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Models.KeyTrialCompleted'
+              $ref: '#/components/schemas/models.KeyTrialCompleted'
       responses:
         '200':
           description: |-
@@ -88,7 +88,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Models.P2Export'
+                $ref: '#/components/schemas/models.P2Export'
         '204':
           description: |-
             - `200` and the appropriate data if the key trial has been passed and is not yet expired.
@@ -130,16 +130,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  id_cert:
+                  idCert:
                     type: string
                     description: The generated [ID-Cert](/Protocol%20Specifications/core/#71-home-server-signed-certificates-for-public-client-identity-keys-id-cert) in PEM format.
                     examples:
                       - ------BEGIN CERTIFICATE------...
                   token:
                     type: string
-                    description: An authorization secret, called a "session token", valid for this `id_cert`/session.
+                    description: An authorization secret, called a "session token", valid for this `idCert`/session.
                 required:
-                  - id_cert
+                  - idCert
                   - token
       tags:
         - Federated Identity - Registration required
@@ -180,10 +180,10 @@ paths:
             type: integer
             format: uint64
           explode: false
-        - name: session_id
+        - name: sessionId
           in: query
           required: false
-          description: Optionally, return only the ID-Certs matching a specific `session_id`.
+          description: Optionally, return only the ID-Certs matching a specific `sessionId`.
           schema:
             type: string
           explode: false
@@ -195,7 +195,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Models.CacheableIDCert'
+                  $ref: '#/components/schemas/models.CacheableIDCert'
       tags:
         - Federated Identity - Registration not required
   /.p2/core/v1/idcert/server:
@@ -222,7 +222,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Models.CacheableIDCert'
+                $ref: '#/components/schemas/models.CacheableIDCert'
       tags:
         - Federated Identity - Registration not required
   /.p2/core/v1/key/server:
@@ -314,11 +314,11 @@ paths:
                   type: object
                   properties:
                     keyTrial:
-                      $ref: '#/components/schemas/Models.KeyTrial'
+                      $ref: '#/components/schemas/models.KeyTrial'
                     keyTrialCompletion:
                       type: array
                       items:
-                        $ref: '#/components/schemas/Models.KeyTrialCompleted'
+                        $ref: '#/components/schemas/models.KeyTrialCompleted'
                       minItems: 1
                   required:
                     - keyTrial
@@ -391,7 +391,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Models.KeyTrialCompleted'
+              $ref: '#/components/schemas/models.KeyTrialCompleted'
       responses:
         '200':
           description: The request has succeeded.
@@ -648,7 +648,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Models.P2Export'
+              $ref: '#/components/schemas/models.P2Export'
       security:
         - BearerAuth: []
   /.p2/core/v1/migration/redirect:
@@ -671,7 +671,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Models.KeyTrialCompleted'
+              $ref: '#/components/schemas/models.KeyTrialCompleted'
       responses:
         '200':
           description: |-
@@ -793,7 +793,7 @@ paths:
           required: false
           description: Whether the list should be sorted in a specific way. Available options are `SizeAsc`, `SizeDesc`, `NewestFirst` and `OldestFirst`.
           schema:
-            $ref: '#/components/schemas/Models.ResourceListSorting'
+            $ref: '#/components/schemas/models.ResourceListSorting'
           explode: false
         - name: previews
           in: query
@@ -814,7 +814,7 @@ paths:
                   type: object
                   properties:
                     resourceInformation:
-                      $ref: '#/components/schemas/Models.ResourceInformation'
+                      $ref: '#/components/schemas/models.ResourceInformation'
                     preview:
                       type: object
                       required:
@@ -873,7 +873,7 @@ paths:
         - BearerAuth: []
   /.p2/core/v1/resource/usage:
     get:
-      operationId: ResourceAddressingWithRelativeRoots_getStorageLimitInfo
+      operationId: Unregistered_getStorageLimitInfo
       summary: Retrieve information about your storage usage
       description: |-
         Get information about how much storage you are allowed to use, and see how much storage you
@@ -898,6 +898,8 @@ paths:
                 required:
                   - limit
                   - used
+      tags:
+        - Resource addressing with relative roots - Registration not required
   /.p2/core/v1/resource/{rid}:
     get:
       operationId: Unregistered_getResource
@@ -970,7 +972,7 @@ paths:
           required: true
           description: ResourceAccessProperties. See the corresponding schema definition for more information.
           schema:
-            $ref: '#/components/schemas/Models.ResourceAccessProperties'
+            $ref: '#/components/schemas/models.ResourceAccessProperties'
           explode: false
       responses:
         '204':
@@ -1134,7 +1136,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Models.ResourceAccessProperties'
+              $ref: '#/components/schemas/models.ResourceAccessProperties'
         description: ResourceAccessProperties. See the corresponding schema definition for more information.
       security:
         - BearerAuth: []
@@ -1164,7 +1166,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Models.ResourceInformation'
+                  $ref: '#/components/schemas/models.ResourceInformation'
         '308':
           description: |-
             - `200`: Found, contains resource information
@@ -1198,7 +1200,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Models.Service'
+                $ref: '#/components/schemas/models.Service'
         '409':
           description: A singular service object, representing the service that was added.
       tags:
@@ -1211,7 +1213,7 @@ paths:
               type: object
               properties:
                 service:
-                  $ref: '#/components/schemas/Models.Service'
+                  $ref: '#/components/schemas/models.Service'
               required:
                 - service
       security:
@@ -1262,12 +1264,12 @@ paths:
                   properties:
                     service:
                       type: string
-                    new_primary:
+                    newPrimary:
                       type: string
                       format: uri
                   required:
                     - service
-                    - new_primary
+                    - newPrimary
         '400':
           description: The server could not understand the request due to invalid syntax.
         '403':
@@ -1315,10 +1317,10 @@ paths:
                 anyOf:
                   - type: array
                     items:
-                      $ref: '#/components/schemas/Models.Service'
+                      $ref: '#/components/schemas/models.Service'
                   - type: array
                     items:
-                      $ref: '#/components/schemas/Models.Service'
+                      $ref: '#/components/schemas/models.Service'
         '204':
           description: |-
             JSON array of [service objects](./Types/service.md). A list of all services which the actor has
@@ -1376,10 +1378,10 @@ paths:
                 anyOf:
                   - type: array
                     items:
-                      $ref: '#/components/schemas/Models.Service'
+                      $ref: '#/components/schemas/models.Service'
                   - type: array
                     items:
-                      $ref: '#/components/schemas/Models.Service'
+                      $ref: '#/components/schemas/models.Service'
         '204':
           description: JSON array of [service objects](./Types/service.md), filtered by the specified service.
           headers:
@@ -1420,7 +1422,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Models.Service'
+                  $ref: '#/components/schemas/models.Service'
         '400':
           description: |-
             An array of at minimum one, and at maximum 2 [service](./Types/service.md) objects.
@@ -1468,7 +1470,7 @@ paths:
           description: Sensitive actions require a second factor of authentication to be executed. Read [section 4.1.2 of the protocol definition](https://docs.polyphony.chat/Protocol%20Specifications/core/#412-sensitive-actions) for more information.
           schema:
             type: string
-        - name: session_id
+        - name: sessionId
           in: query
           required: true
           schema:
@@ -1491,28 +1493,22 @@ paths:
       security:
         - BearerAuth: []
   /.p2/core/v1/session/auth:
-    post:
-      operationId: Unregistered_requestToken
+    get:
+      operationId: Unregistered_requestChallenge
       summary: Authenticate on a foreign server
       description: |-
-        Authenticate on a foreign server, creating a session with an authentication token. Requires
-        completing a key trial for the ID-Cert the session is supposed to be generated for.
+        Manually request a KeyTrial, useful for obtaining a session token. Returns
+        a key trial.
       parameters: []
       responses:
         '200':
           description: The request has succeeded.
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/models.KeyTrial'
       tags:
         - Federated Identity - Registration not required
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Models.KeyTrialCompleted'
   /.p2/core/v1/session/idcert/extern:
     put:
       operationId: Unregistered_updateSessionCert
@@ -1565,7 +1561,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Models.EncryptedPKM'
+                $ref: '#/components/schemas/models.EncryptedPKM'
         description: Array of encrypted private key material objects.
       security:
         - BearerAuth: []
@@ -1595,7 +1591,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Models.EncryptedPKM'
+                  $ref: '#/components/schemas/models.EncryptedPKM'
         '204':
           description: 'There is no content to send for this request, but the headers may be useful. '
           headers:
@@ -1671,7 +1667,12 @@ paths:
         - {}
 components:
   schemas:
-    Models.CacheableIDCert:
+    Version:
+      type: string
+      enum:
+        - v1.0-beta.3
+        - v1.0-beta.4
+    models.CacheableIDCert:
       type: object
       required:
         - idCertPem
@@ -1687,7 +1688,7 @@ components:
         invalidatedAt:
           type: integer
           format: uint64
-          description: UNIX timestamp that specifies when this specific id_cert has been marked as invalidated by the server. An ID-Cert is considered invalidated, if the server or actor choose to revoke the validity of the ID-Cert before the lifetime of the certificate was scheduled to end. If this property does not exist, the ID-Cert has not been invalidated.
+          description: UNIX timestamp that specifies when this specific idCert has been marked as invalidated by the server. An ID-Cert is considered invalidated, if the server or actor choose to revoke the validity of the ID-Cert before the lifetime of the certificate was scheduled to end. If this property does not exist, the ID-Cert has not been invalidated.
           examples:
             - 1736610000
         cacheNotValidBefore:
@@ -1710,14 +1711,14 @@ components:
           examples:
             - 7ab2bbde7fe43c7481a3a61031546bab16bc1a8735b2f0cdd519958c7f2f99f8
       description: A cacheable response to an ID-Cert request.
-    Models.EncryptedPKM:
+    models.EncryptedPKM:
       type: object
       required:
-        - key_data
+        - keyData
         - serialNumber
         - encryptionAlgorithms
       properties:
-        key_data:
+        keyData:
           type: string
           description: |-
             Custom variant of the X.509 `SubjectPublicKeyInfo`, where the `subject_public_key`
@@ -1736,7 +1737,7 @@ components:
             Information about the algorithms used to encrypt the data held by the `key_data` field.
             Order-sensitive; The encryption used for the first encryption operation must be the last
             item of this array and vice versa. Represents a list of OIDs.
-    Models.KeyTrial:
+    models.KeyTrial:
       type: object
       required:
         - trial
@@ -1756,21 +1757,25 @@ components:
 
         Used to verify an actor's private identity key possession,
         without revealing the private key itself
-    Models.KeyTrialCompleted:
+    models.KeyTrialCompleted:
       type: object
       required:
         - signature
+        - fid
         - serialNumber
       properties:
         signature:
           type: string
           description: The signature produced by signing the key trial string using a private identity key.
+        fid:
+          type: string
+          description: The federation ID of the actor who completed this key trial.
         serialNumber:
           type: integer
           format: uint64
           description: The serial number of the ID-Cert corresponding to the private identity key used to sign the key trial string.
       description: A completed key trial, as an actor would send to the server.
-    Models.MessageBatchExample:
+    models.MessageBatchExample:
       type: object
       allOf:
         - type: object
@@ -1801,7 +1806,7 @@ components:
             This type is generic over `T`, where `T` represents the content of the actual message. This
             means, that the specific message content depends on the concrete implementation or extension
             of the polyproto protocol.
-    Models.P2Export:
+    models.P2Export:
       type: object
       description: |-
         The data is a gzipped tarball (.tar.gz) named `export1234567890-user@subdomain.example.com`, where
@@ -1850,7 +1855,7 @@ components:
         The file `crypt_certs.p2epk` contains all [encrypted private key material](https://docs.polyphony.chat/Protocol%20Specifications/core/#63-private-key-loss-prevention-and-private-key-recovery)
         that the actor has uploaded to the server. Just like `messages.p2mb`, `crypt_certs.p2epk` is a standard
         JSON file.
-    Models.ResourceAccessProperties:
+    models.ResourceAccessProperties:
       type: object
       required:
         - private
@@ -1883,7 +1888,7 @@ components:
       description: |-
         `ResourceAccessProperties` define which actors may access an uploaded resource. Actors and
         entire instances can have access granted or revoked.
-    Models.ResourceInformation:
+    models.ResourceInformation:
       type: object
       required:
         - resourceId
@@ -1899,10 +1904,10 @@ components:
           description: Size of the resource, in bytes
         access:
           allOf:
-            - $ref: '#/components/schemas/Models.ResourceAccessProperties'
+            - $ref: '#/components/schemas/models.ResourceAccessProperties'
           description: Access information for this resource
       description: Information about a RawR resource.
-    Models.ResourceListSorting:
+    models.ResourceListSorting:
       type: string
       enum:
         - SizeAsc
@@ -1912,7 +1917,7 @@ components:
       description: |-
         When querying the server for a list of resources uploaded by you, you can optionally request
         the resulting list to be sorted in a specific way. These are the four options you have.
-    Models.Service:
+    models.Service:
       type: object
       required:
         - service
@@ -1939,10 +1944,6 @@ components:
         This resource contains information about the name of the service that is being made discoverable,
         the URL of the service provider, and whether this service provider is the primary service provider
         for the actor.
-    Version:
-      type: string
-      enum:
-        - v1.0-beta.3
   securitySchemes:
     BearerAuth:
       type: http
