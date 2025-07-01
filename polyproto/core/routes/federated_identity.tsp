@@ -35,9 +35,9 @@ namespace polyproto.core.Routes.FederatedIdentity {
             @body newIdCert: {
                 @doc("The generated [ID-Cert](/Protocol%20Specifications/core/#71-home-server-signed-certificates-for-public-client-identity-keys-id-cert) in PEM format.")
                 @example("------BEGIN CERTIFICATE------...")
-                id_cert: string;
+                idCert: string;
 
-                @doc("An authorization secret, called a \"session token\", valid for this `id_cert`/session.")
+                @doc("An authorization secret, called a \"session token\", valid for this `idCert`/session.")
                 token: string;
             };
         };
@@ -54,7 +54,7 @@ namespace polyproto.core.Routes.FederatedIdentity {
         @added(Version.`v1.0-beta.3`)
         @post
         op uploadEncryptedPKM(
-            @body @minItems(1) pkm: polyproto.core.Models.EncryptedPKM[],
+            @body @minItems(1) pkm: polyproto.core.models.EncryptedPKM[],
         ):
             | {
                   @statusCode statusCode: 201;
@@ -87,7 +87,7 @@ namespace polyproto.core.Routes.FederatedIdentity {
         @get
         op getEncryptedPKM(@query serials?: uint64[]): {
             @statusCode statusCode: 200;
-            @body encryptedPKMs: polyproto.core.Models.EncryptedPKM[];
+            @body encryptedPKMs: polyproto.core.models.EncryptedPKM[];
         } | {
             @doc("Returned, if no `serial_numbers` are provided and the client has not uploaded any key material.")
             @statusCode
@@ -158,7 +158,7 @@ namespace polyproto.core.Routes.FederatedIdentity {
             @header(#{ name: "X-P2-Sensitive-Solution" })
             sensitiveSolution: string,
 
-            @query session_id: string,
+            @query sessionId: string,
         ): {
             @statusCode statusCode: 204;
 
@@ -200,14 +200,14 @@ namespace polyproto.core.Routes.FederatedIdentity {
         @summary("Get Server ID-Cert")
         op serverIdCert(
             @query timestamp?: uint64,
-        ): polyproto.core.Models.CacheableIDCert;
+        ): polyproto.core.models.CacheableIDCert;
 
         /**
          * Request the ID-Certs of a specific actor. The specified actor must be registered on this server.
          * @param fid The ID of the actor whose ID-Cert(s) should be returned.
          * @param notBefore: Return only ID-Certs from at or after a specific point in time. UNIX 64 bit timestamp.
          * @param notAfter: Return only ID-Certs from at or before a specific point in time. UNIX 64 bit timestamp.
-         * @param session_id Optionally, return only the ID-Certs matching a specific `session_id`.
+         * @param sessionId Optionally, return only the ID-Certs matching a specific `sessionId`.
          * @returns JSON-Array of Object(s).
          */
         @route("/idcert/actor")
@@ -218,10 +218,10 @@ namespace polyproto.core.Routes.FederatedIdentity {
             @path fid: string,
             @query notBefore?: uint64,
             @query notAfter?: uint64,
-            @query session_id?: string,
+            @query sessionId?: string,
         ): {
             @statusCode statusCode: 200;
-            @body response: polyproto.core.Models.CacheableIDCert[];
+            @body response: polyproto.core.models.CacheableIDCert[];
         };
 
         /**
@@ -235,7 +235,7 @@ namespace polyproto.core.Routes.FederatedIdentity {
         @added(Version.`v1.0-beta.3`)
         @useAuth(BearerAuth)
         @summary("Update session ID-Cert")
-        op updateSessionCert(@body id_cert: string): {
+        op updateSessionCert(@body idCert: string): {
             @statusCode statusCode: 201;
         } | {
             @statusCode statusCode: 400;
@@ -243,17 +243,30 @@ namespace polyproto.core.Routes.FederatedIdentity {
 
         /**
          * Authenticate on a foreign server, creating a session with an authentication token. Requires
-         * completing a key trial for the ID-Cert the session is supposed to be generated for.
+         * completing a key trial for the ID-Cert of which the session is supposed to be generated for.
          */
         @route("/session/auth")
         @post
-        @added(Version.`v1.0-beta.3`)
+        @added(Version.`v1.0-beta.4`)
         @summary("Authenticate on a foreign server")
         op requestToken(
             @body
-            completedChallengeString: polyproto.core.Models.KeyTrialCompleted,
+            completedChallengeString: polyproto.core.models.KeyTrialCompleted,
         ): {
             @body _: string;
+            @statusCode statusCode: 200;
+        };
+
+        /**
+         * Manually request a KeyTrial, useful for obtaining a session token. Returns
+         * a key trial.
+         */
+        @route("/session/auth")
+        @get
+        @added(Version.`v1.0-beta.3`)
+        @summary("Authenticate on a foreign server")
+        op requestChallenge(): {
+            @body _: polyproto.core.models.KeyTrial;
             @statusCode statusCode: 200;
         };
     }
