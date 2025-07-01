@@ -108,6 +108,20 @@ paths:
         - Migration - Registration not required
       security:
         - BearerAuth: []
+  /.p2/core/v1/gateway:
+    get:
+      operationId: gatewayUrl
+      summary: Get the gateway server URL
+      description: Retrieve the URL of the gateway server to connect to.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: uri
   /.p2/core/v1/idcert:
     post:
       operationId: Registered_newIdCert
