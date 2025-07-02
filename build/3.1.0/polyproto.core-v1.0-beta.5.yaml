@@ -4,7 +4,7 @@ info:
   license:
     name: MIT License
     url: https://raw.githubusercontent.com/polyphony-chat/docs/refs/heads/main/LICENSE
-  version: v1.0-beta.3
+  version: v1.0-beta.5
 tags:
   - name: Federated Identity - Registration required
   - name: Sensitive Actions
@@ -16,6 +16,48 @@ tags:
   - name: Resource addressing with relative roots - Registration not required
   - name: Resource addressing with relative roots - Registration required
 paths:
+  /.p2/core/v1/abuse:
+    post:
+      operationId: reportAbuseFid
+      summary: File an abuse report - Report an Actor
+      description: |-
+        File an abuse report for an actor that is misbehaving either on this home server or on other
+        home servers/service servers.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An optional message from the home server
+        '400':
+          description: This actor either does not exist on this home server (anymore), or the actor is not from this home server.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fid:
+                  type: string
+                  description: Federation ID of the reported actor
+                reportText:
+                  type: string
+                  description: Information about why this actor was reported.
+                keyTrial:
+                  allOf:
+                    - $ref: '#/components/schemas/models.KeyTrialCompleted'
+                  description: This endpoint requires you to identify by completing a key trial.
+              required:
+                - fid
+                - reportText
+                - keyTrial
   /.p2/core/v1/contact:
     get:
       operationId: getContactInfo
@@ -130,6 +172,20 @@ paths:
         - Migration - Registration not required
       security:
         - BearerAuth: []
+  /.p2/core/v1/gateway:
+    get:
+      operationId: gatewayUrl
+      summary: Get the gateway server URL
+      description: Retrieve the URL of the gateway server to connect to.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: uri
   /.p2/core/v1/idcert:
     post:
       operationId: Registered_newIdCert
@@ -1515,6 +1571,28 @@ paths:
       security:
         - BearerAuth: []
   /.p2/core/v1/session/auth:
+    post:
+      operationId: Unregistered_requestToken
+      summary: Authenticate on a foreign server
+      description: |-
+        Authenticate on a foreign server, creating a session with an authentication token. Requires
+        completing a key trial for the ID-Cert of which the session is supposed to be generated for.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            text/plain:
+              schema:
+                type: string
+      tags:
+        - Federated Identity - Registration not required
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/models.KeyTrialCompleted'
     get:
       operationId: Unregistered_requestChallenge
       summary: Authenticate on a foreign server
@@ -1689,9 +1767,6 @@ paths:
         - {}
 components:
   schemas:
-    BadReport:
-      type: object
-      description: This actor either does not exist on this home server (anymore), or the actor is not from this home server.
     Version:
       type: string
       enum:

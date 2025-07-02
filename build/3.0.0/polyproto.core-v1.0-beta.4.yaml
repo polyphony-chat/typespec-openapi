@@ -16,6 +16,28 @@ tags:
   - name: Resource addressing with relative roots - Registration not required
   - name: Resource addressing with relative roots - Registration required
 paths:
+  /.p2/core/v1/contact:
+    get:
+      operationId: getContactInfo
+      summary: Retrieve contact information
+      description: |-
+        Retrieve contact information for this home server. May include an `adminAccount` federation ID,
+        if this instance supports some form of text message exchange and such an account exists.
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  adminAccount:
+                    type: string
+                  mail:
+                    type: string
+                required:
+                  - mail
   /.p2/core/v1/data:
     delete:
       operationId: Unregistered_deleteData
@@ -1704,11 +1726,15 @@ paths:
         - {}
 components:
   schemas:
+    BadReport:
+      type: object
+      description: This actor either does not exist on this home server (anymore), or the actor is not from this home server.
     Version:
       type: string
       enum:
         - v1.0-beta.3
         - v1.0-beta.4
+        - v1.0-beta.5
     models.CacheableIDCert:
       type: object
       required:
