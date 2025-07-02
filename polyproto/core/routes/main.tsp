@@ -33,6 +33,7 @@ enum Version {
  * Retrieve the URL of the gateway server to connect to.
  */
 @route("/gateway")
+@get
 @added(Version.`v1.0-beta.4`)
 @summary("Get the gateway server URL")
 op gatewayUrl(): {
